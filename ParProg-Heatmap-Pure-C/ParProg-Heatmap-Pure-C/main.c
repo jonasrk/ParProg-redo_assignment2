@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <omp.h>
 
 int main(int argc, const char * argv[])
 {
@@ -138,7 +137,7 @@ int main(int argc, const char * argv[])
         //               //printf("Hotspot %i active!\n", hotspot);
         //            }
         //        }
-#pragma omp parallel for
+        
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++){
                 double temp;
