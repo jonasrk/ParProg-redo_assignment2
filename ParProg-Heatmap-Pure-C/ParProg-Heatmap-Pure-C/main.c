@@ -137,7 +137,7 @@ int main(int argc, const char * argv[])
     // Generate output file
     
     FILE *output_file;
-    output_file = fopen("output.txt","a+");
+    output_file = fopen("output.txt","w+");
     
     if (argc == 6){
         for (int coord = 0; coord < number_of_coords; coord++){
