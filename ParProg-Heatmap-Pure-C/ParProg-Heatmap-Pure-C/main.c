@@ -5,15 +5,9 @@
 int main(int argc, const char * argv[])
 {
     
-    // assign values
-    
     int width = atoi(argv[1]);
     int height = atoi(argv[2]);
     int rounds = atoi(argv[3]) + 1; //one extra round
-    
-    
-    //parse coords
-    
     int number_of_coords = 0;
     const char* coord_file_name;
     int* coords;;
@@ -32,7 +26,6 @@ int main(int argc, const char * argv[])
         fclose(coord_file);
         
         coords = malloc(sizeof(int)*number_of_coords*2);
-        
         
         // tokenize coords
         
@@ -59,16 +52,13 @@ int main(int argc, const char * argv[])
         fclose(coord_file_again);
     }
     
-    
     // parse hotspots
     
     const char *hotspot_file_name = argv[4];
     
-    
     // count hotspots
     
     FILE *hotspot_file;
-    //hotspot_file = fopen ("/Users/jonas/Desktop/Uni/ParallelProgramming/assignment2/Heatma_backupp/HeatmapXCode/Heatmap/Heatmap/hotspots.csv", "rt");
     hotspot_file = fopen (hotspot_file_name, "rt");
     int number_of_hotspots = 0;
     int ch;
@@ -77,14 +67,11 @@ int main(int argc, const char * argv[])
             number_of_hotspots++;
     fclose(hotspot_file);
     int hotspots[number_of_hotspots][4];
-    //printf("Width: %i Height: %i Rounds: %i Hotspots: %i\n\n", width, height, rounds, number_of_hotspots);
-    
     
     // tokenize hotspots
     
     int hotspot_to_tokenize = -1;
     FILE *hotspot_file_again;
-    //hotspot_file_again = fopen ("/Users/jonas/Desktop/Uni/ParallelProgramming/assignment2/Heatma_backupp/HeatmapXCode/Heatmap/Heatmap/hotspots.csv", "rt");
     hotspot_file_again = fopen (hotspot_file_name, "rt");
     char line[80];
     while(fgets(line, 80, hotspot_file) != NULL){
@@ -99,11 +86,9 @@ int main(int argc, const char * argv[])
                 current_token++;
             }
         }
-        //printf("HotSpot %i - x: %i y: %i\n", hotspot_to_tokenize, hotspots[hotspot_to_tokenize][0], hotspots[hotspot_to_tokenize][1]);
         hotspot_to_tokenize++;
     }
     fclose(hotspot_file_again);
-    
     
     // generate heatmap
     
@@ -119,22 +104,14 @@ int main(int argc, const char * argv[])
             for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
                 if (hotspots[hotspot][0] == x && hotspots[hotspot][1] == y && 0 >= hotspots[hotspot][2] && 0 < hotspots[hotspot][3]){
                     heatmap[(x*height)+y] = 1;
-                    //                            last_round[(x*height)+y] = 1;
                 }
             }
         }
     }
     
-    
     // run heatmap
     
     for (int round = 0; round < rounds; round++) {
-        //       //printf("\n Round %i \n", round);
-        //        for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
-        //            if (round >= hotspots[hotspot][2] && round < hotspots[hotspot][3]){
-        //               //printf("Hotspot %i active!\n", hotspot);
-        //            }
-        //        }
         
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++){
@@ -150,19 +127,12 @@ int main(int argc, const char * argv[])
                 for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
                     if (hotspots[hotspot][0] == x && hotspots[hotspot][1] == y && round >= hotspots[hotspot][2] && round < hotspots[hotspot][3]){
                         heatmap[(x*height)+y] = 1;}}
-                //                if (heatmap[(x*height)+y] > 0.9)//printf("X"); // print values
-                //                else {
-                //                    int int_value = (int)((heatmap[(x*height)+y]+0.09)*10)/1;
-                //printf("%i", int_value);}
             }
-            //printf("\n");
         }
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++){
                 last_round[(x*height)+y] = heatmap[(x*height)+y];}}
-        //printf("\n");
     }
-    
     
     // Generate output file
     
