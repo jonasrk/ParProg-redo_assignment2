@@ -2,62 +2,63 @@
 #include <stdlib.h>
 #include <string.h>
 
+int parse_coordinates(const char* coord_file_name, int* coords){
+
+    int number_of_coords = 0;
+    
+    FILE *coord_file;
+    coord_file = fopen (coord_file_name, "rt");
+    
+    //count coordinates
+    int ch;
+    while (EOF != (ch=getc(coord_file)))
+        if (ch=='\n')
+            number_of_coords++;
+    fclose(coord_file);
+    
+    coords = malloc(sizeof(int)*number_of_coords*2);
+    
+    // tokenize coords
+    int coord_to_tokenize = -1;
+    FILE *coord_file_again;
+    coord_file_again = fopen (coord_file_name, "rt");
+    char line[80];
+    while(fgets(line, 80, coord_file_again) != NULL){
+        if (coord_to_tokenize > -1) {
+            char s[64];
+            strcpy(s, line);
+            char* token = strtok(s, ",");
+            int current_token = 0;
+            while (token) {
+                coords[coord_to_tokenize*number_of_coords+current_token] = atoi(token);
+                token = strtok(NULL, ",");
+                current_token++;
+            }
+        }
+        coord_to_tokenize++;
+    }
+    fclose(coord_file_again);
+    
+    return number_of_coords;
+    
+}
+
 int main(int argc, const char * argv[])
 {
     
     int width = atoi(argv[1]);
     int height = atoi(argv[2]);
     int rounds = atoi(argv[3]) + 1; //one extra round
-    int number_of_coords = 0;
-    const char* coord_file_name;
-    int* coords;;
+    int number_of_coords;
+    int* coords = NULL;
     
-    // count coords
+    // if 5 arguments are given -> parse the coordinate file
+    if (argc == 6) number_of_coords = parse_coordinates(argv[5], coords);
     
-    if (argc == 6){
-        
-        coord_file_name = argv[5];
-        FILE *coord_file;
-        coord_file = fopen (coord_file_name, "rt");
-        int ch;
-        while (EOF != (ch=getc(coord_file)))
-            if (ch=='\n')
-                number_of_coords++;
-        fclose(coord_file);
-        
-        coords = malloc(sizeof(int)*number_of_coords*2);
-        
-        // tokenize coords
-        
-        int coord_to_tokenize = -1;
-        FILE *coord_file_again;
-        //        coordfile = fopen ("/Users/jonas/Desktop/Uni/ParallelProgramming/assignment2/Heatma_backupp/HeatmapXCode/Heatmap/Heatmap/hotspots.csv", "rt");
-        coord_file_again = fopen (coord_file_name, "rt");
-        char line[80];
-        while(fgets(line, 80, coord_file_again) != NULL){
-            if (coord_to_tokenize > -1) {
-                char s[64];
-                strcpy(s, line);
-                char* token = strtok(s, ",");
-                int current_token = 0;
-                while (token) {
-                    coords[coord_to_tokenize*number_of_coords+current_token] = atoi(token);
-                    token = strtok(NULL, ",");
-                    current_token++;
-                }
-            }
-            //printf("Coord %i - x: %i y: %i\n\n", coord_to_tokenize, coords[coord_to_tokenize][0], coords[coord_to_tokenize][1]);
-            coord_to_tokenize++;
-        }
-        fclose(coord_file_again);
-    }
-    
-    // parse hotspots
-    
+    // parse and count hotspots
     const char *hotspot_file_name = argv[4];
     
     // count hotspots
-    
     FILE *hotspot_file;
     hotspot_file = fopen (hotspot_file_name, "rt");
     int number_of_hotspots = 0;
