@@ -109,19 +109,19 @@ int main(int argc, const char * argv[])
     
     // generate heatmap
     
-    double heatmap[width][height];
-    double last_round[width][height];
-    double last_round_copy[width][height];
+    double* heatmap = malloc(sizeof(double)*width*height);
+    double* last_round = malloc(sizeof(double)*width*height);
+    double* last_round_copy = malloc(sizeof(double)*width*height);
     
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++){
-            last_round[x][y] = 0;
-            last_round_copy[x][y] = 0;
-            heatmap[x][y] = 0;
+            last_round[(x*height)+y] = 0;
+            last_round_copy[(x*height)+y] = 0;
+            heatmap[(x*height)+y] = 0;
             for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
                 if (hotspots[hotspot][0] == x && hotspots[hotspot][1] == y && 0 >= hotspots[hotspot][2] && 0 < hotspots[hotspot][3]){
-                    heatmap[x][y] = 1;
-                    //                            last_round[x][y] = 1;
+                    heatmap[(x*height)+y] = 1;
+                    //                            last_round[(x*height)+y] = 1;
                 }
             }
         }
@@ -141,27 +141,27 @@ int main(int argc, const char * argv[])
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++){
                 double temp;
-                temp = heatmap[x][y];
+                temp = heatmap[(x*height)+y];
                 double sum = 0;
                 for (int row = -1; row < 2; row++){
                     for (int col = -1; col < 2; col++){
                         if (x+col >= 0 && x+col < width && y+row >= 0 && y+row < height){
-                            sum += last_round[x+col][y+row];}}}
-                heatmap[x][y] = sum/9.0;
-                last_round_copy[x][y] = temp;
+                            sum += last_round[(x+col)*height+y+row];}}}
+                heatmap[(x*height)+y] = sum/9.0;
+                last_round_copy[(x*height)+y] = temp;
                 for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
                     if (hotspots[hotspot][0] == x && hotspots[hotspot][1] == y && round >= hotspots[hotspot][2] && round < hotspots[hotspot][3]){
-                        heatmap[x][y] = 1;}}
-                //                if (heatmap[x][y] > 0.9)//printf("X"); // print values
+                        heatmap[(x*height)+y] = 1;}}
+                //                if (heatmap[(x*height)+y] > 0.9)//printf("X"); // print values
                 //                else {
-                //                    int int_value = (int)((heatmap[x][y]+0.09)*10)/1;
+                //                    int int_value = (int)((heatmap[(x*height)+y]+0.09)*10)/1;
                 //printf("%i", int_value);}
             }
             //printf("\n");
         }
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++){
-                last_round[x][y] = heatmap[x][y];}}
+                last_round[(x*height)+y] = heatmap[(x*height)+y];}}
         //printf("\n");
     }
     
@@ -173,14 +173,14 @@ int main(int argc, const char * argv[])
     
     if (argc == 6){
         for (int coord = 0; coord < number_of_coords; coord++){
-            fprintf(output_file, "%f\n", heatmap[coords[coord][0]][coords[coord][1]]);
+            fprintf(output_file, "%f\n", heatmap[coords[coord][0]*height+coords[coord][1]]);
         }
     } else {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++){
-                if (heatmap[x][y] > 0.9) fprintf(output_file, "X");
+                if (heatmap[(x*height)+y] > 0.9) fprintf(output_file, "X");
                 else {
-                    int int_value = (int)((heatmap[x][y]+0.09)*10)/1;
+                    int int_value = (int)((heatmap[(x*height)+y]+0.09)*10)/1;
                     fprintf(output_file, "%i", int_value);
                 }
             }
