@@ -16,24 +16,22 @@ int main(int argc, const char * argv[])
     
     int number_of_coords = 0;
     const char* coord_file_name;
+    int* coords;;
+    
+    // count coords
+    
     if (argc == 6){
         
-        
-        // count coords
-        
-        //printf("Coordinates given!\n");
         coord_file_name = argv[5];
         FILE *coord_file;
         coord_file = fopen (coord_file_name, "rt");
-        //coord_file = fopen ("/Users/jonas/Desktop/Uni/ParallelProgramming/assignment2/Heatma_backupp/HeatmapXCode/Heatmap/Heatmap/task2.1_coords.csv", "rt");
         int ch;
         while (EOF != (ch=getc(coord_file)))
             if (ch=='\n')
                 number_of_coords++;
         fclose(coord_file);
-    }
-    int coords[number_of_coords][2];
-    if (argc == 6){
+        
+        coords = malloc(sizeof(int)*number_of_coords*2);
         
         
         // tokenize coords
@@ -50,7 +48,7 @@ int main(int argc, const char * argv[])
                 char* token = strtok(s, ",");
                 int current_token = 0;
                 while (token) {
-                    coords[coord_to_tokenize][current_token] = atoi(token);
+                    coords[coord_to_tokenize*number_of_coords+current_token] = atoi(token);
                     token = strtok(NULL, ",");
                     current_token++;
                 }
@@ -173,7 +171,7 @@ int main(int argc, const char * argv[])
     
     if (argc == 6){
         for (int coord = 0; coord < number_of_coords; coord++){
-            fprintf(output_file, "%f\n", heatmap[coords[coord][0]*height+coords[coord][1]]);
+            fprintf(output_file, "%f\n", heatmap[coords[coord*number_of_coords]*height+coords[coord*number_of_coords+1]]);
         }
     } else {
         for (int y = 0; y < height; y++) {
