@@ -102,9 +102,7 @@ int main(int argc, const char * argv[])
     
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++){
-            last_round[(x*height)+y] = 0;
-        }
-    }
+            last_round[(x*height)+y] = 0;}}
     
     // run heatmap
     for (int round = 0; round < rounds; round++) {
@@ -118,14 +116,11 @@ int main(int argc, const char * argv[])
                     for (int col = -1; col < 2; col++){
                         if (x+col >= 0 && x+col < width && y+row >= 0 && y+row < height){
                             sum += last_round[(x+col)*height+y+row];}}}
-                heatmap[(x*height)+y] = sum/9.0;
-            }
-        }
+                heatmap[(x*height)+y] = sum/9.0;}}
         for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
             if (round >= hotspots[hotspot*4+2] && round < hotspots[hotspot*4+3]){
                 heatmap[(hotspots[hotspot*4]*height)+hotspots[hotspot*4+1]] = 1;}}
-        last_round = heatmap;
-    }
+        last_round = heatmap;}
     
     // Generate output file
     FILE *output_file;
@@ -133,22 +128,16 @@ int main(int argc, const char * argv[])
     
     if (argc == 6){
         for (int coord = 0; coord < number_of_coords; coord++){
-            fprintf(output_file, "%f\n", heatmap[coords[coord*2]*height+coords[coord*2+1]]);
-        }
-    } else {
+            fprintf(output_file, "%f\n", heatmap[coords[coord*2]*height+coords[coord*2+1]]);}}
+    else {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++){
                 if (heatmap[(x*height)+y] > 0.9) fprintf(output_file, "X");
                 else {
                     int int_value = (int)((heatmap[(x*height)+y]+0.09)*10)/1;
-                    fprintf(output_file, "%i", int_value);
-                }
-            }
-            fprintf(output_file, "\n");
-        }
-    }
+                    fprintf(output_file, "%i", int_value);}}
+            fprintf(output_file, "\n");}}
     fclose(output_file);
     
-    return 0;
-}
+    return 0;}
 
