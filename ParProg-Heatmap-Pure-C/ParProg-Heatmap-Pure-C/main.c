@@ -94,31 +94,27 @@ int main(int argc, const char * argv[])
     int* hotspots = NULL;
     
     if (argc == 6) number_of_coords = parse_coordinates(argv[5], &coords);
-    
     int number_of_hotspots = parse_and_count_hotspots(argv[4], &hotspots);
     
     // generate heatmap
     double* heatmap = malloc(sizeof(double)*width*height);
     double* last_round = malloc(sizeof(double)*width*height);
-    double* last_round_copy = malloc(sizeof(double)*width*height);
     
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++){
-            last_round[(x*height)+y] = 0;
-            last_round_copy[(x*height)+y] = 0;
             heatmap[(x*height)+y] = 0;
+            last_round[(x*height)+y] = 0;
         }
     }
     
     // place initial hotspots
     for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
-            heatmap[(hotspots[hotspot*4]*height)+hotspots[hotspot*4+1]] = 1;
+        heatmap[(hotspots[hotspot*4]*height)+hotspots[hotspot*4+1]] = 1;
     }
     
     // run heatmap
-    
     for (int round = 0; round < rounds; round++) {
-        
+        heatmap = malloc(sizeof(double)*width*height);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++){
                 double temp;
@@ -129,19 +125,15 @@ int main(int argc, const char * argv[])
                         if (x+col >= 0 && x+col < width && y+row >= 0 && y+row < height){
                             sum += last_round[(x+col)*height+y+row];}}}
                 heatmap[(x*height)+y] = sum/9.0;
-                last_round_copy[(x*height)+y] = temp;
                 for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
                     if (hotspots[hotspot*4] == x && hotspots[hotspot*4+1] == y && round >= hotspots[hotspot*4+2] && round < hotspots[hotspot*4+3]){
                         heatmap[(x*height)+y] = 1;}}
             }
         }
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++){
-                last_round[(x*height)+y] = heatmap[(x*height)+y];}}
+        last_round = heatmap;
     }
     
     // Generate output file
-    
     FILE *output_file;
     output_file = fopen("output.txt","w+");
     
