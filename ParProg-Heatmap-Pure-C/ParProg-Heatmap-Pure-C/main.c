@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-int parse_coordinates(const char* coord_file_name, int* coords){
-
+int parse_coordinates(const char* coord_file_name, int** coords){
+    
     int number_of_coords = 0;
     
     FILE *coord_file;
@@ -16,7 +16,7 @@ int parse_coordinates(const char* coord_file_name, int* coords){
             number_of_coords++;
     fclose(coord_file);
     
-    coords = malloc(sizeof(int)*number_of_coords*2);
+    *coords = malloc(sizeof(int)*number_of_coords*2);
     
     // tokenize coords
     int coord_to_tokenize = -1;
@@ -30,7 +30,7 @@ int parse_coordinates(const char* coord_file_name, int* coords){
             char* token = strtok(s, ",");
             int current_token = 0;
             while (token) {
-                coords[coord_to_tokenize*number_of_coords+current_token] = atoi(token);
+                (*coords)[coord_to_tokenize*2+current_token] = atoi(token);
                 token = strtok(NULL, ",");
                 current_token++;
             }
@@ -43,20 +43,9 @@ int parse_coordinates(const char* coord_file_name, int* coords){
     
 }
 
-int main(int argc, const char * argv[])
-{
-    
-    int width = atoi(argv[1]);
-    int height = atoi(argv[2]);
-    int rounds = atoi(argv[3]) + 1; //one extra round
-    int number_of_coords;
-    int* coords = NULL;
-    
-    // if 5 arguments are given -> parse the coordinate file
-    if (argc == 6) number_of_coords = parse_coordinates(argv[5], coords);
+int parse_and_count_hotspots(const char *hotspot_file_name, int** hotspots){
     
     // parse and count hotspots
-    const char *hotspot_file_name = argv[4];
     
     // count hotspots
     FILE *hotspot_file;
@@ -67,7 +56,7 @@ int main(int argc, const char * argv[])
         if (ch=='\n')
             number_of_hotspots++;
     fclose(hotspot_file);
-    int hotspots[number_of_hotspots][4];
+    *hotspots = malloc(sizeof(int)*number_of_hotspots*4);
     
     // tokenize hotspots
     
@@ -82,7 +71,7 @@ int main(int argc, const char * argv[])
             char* token = strtok(s, ",");
             int current_token = 0;
             while (token) {
-                hotspots[hotspot_to_tokenize][current_token] = atoi(token);
+                (*hotspots)[hotspot_to_tokenize*4+current_token] = atoi(token);
                 token = strtok(NULL, ",");
                 current_token++;
             }
@@ -90,6 +79,24 @@ int main(int argc, const char * argv[])
         hotspot_to_tokenize++;
     }
     fclose(hotspot_file_again);
+    return number_of_hotspots;
+    
+}
+
+int main(int argc, const char * argv[])
+{
+    
+    int width = atoi(argv[1]);
+    int height = atoi(argv[2]);
+    int rounds = atoi(argv[3]) + 1; //one extra round
+    int number_of_coords;
+    int number_of_hotspots;
+    int* coords = NULL;
+    int* hotspots = NULL;
+    
+    if (argc == 6) number_of_coords = parse_coordinates(argv[5], &coords);
+    
+    number_of_hotspots = parse_and_count_hotspots(argv[4], &hotspots);
     
     // generate heatmap
     
@@ -103,7 +110,7 @@ int main(int argc, const char * argv[])
             last_round_copy[(x*height)+y] = 0;
             heatmap[(x*height)+y] = 0;
             for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
-                if (hotspots[hotspot][0] == x && hotspots[hotspot][1] == y && 0 >= hotspots[hotspot][2] && 0 < hotspots[hotspot][3]){
+                if (hotspots[hotspot*4] == x && hotspots[hotspot*4+1] == y && 0 >= hotspots[hotspot*4+2] && 0 < hotspots[hotspot*4+3]){
                     heatmap[(x*height)+y] = 1;
                 }
             }
@@ -126,7 +133,7 @@ int main(int argc, const char * argv[])
                 heatmap[(x*height)+y] = sum/9.0;
                 last_round_copy[(x*height)+y] = temp;
                 for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
-                    if (hotspots[hotspot][0] == x && hotspots[hotspot][1] == y && round >= hotspots[hotspot][2] && round < hotspots[hotspot][3]){
+                    if (hotspots[hotspot*4] == x && hotspots[hotspot*4+1] == y && round >= hotspots[hotspot*4+2] && round < hotspots[hotspot*4+3]){
                         heatmap[(x*height)+y] = 1;}}
             }
         }
@@ -142,7 +149,7 @@ int main(int argc, const char * argv[])
     
     if (argc == 6){
         for (int coord = 0; coord < number_of_coords; coord++){
-            fprintf(output_file, "%f\n", heatmap[coords[coord*number_of_coords]*height+coords[coord*number_of_coords+1]]);
+            fprintf(output_file, "%f\n", heatmap[coords[coord*2]*height+coords[coord*2+1]]);
         }
     } else {
         for (int y = 0; y < height; y++) {
