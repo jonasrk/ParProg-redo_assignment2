@@ -102,14 +102,8 @@ int main(int argc, const char * argv[])
     
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++){
-            heatmap[(x*height)+y] = 0;
             last_round[(x*height)+y] = 0;
         }
-    }
-    
-    // place initial hotspots
-    for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
-        heatmap[(hotspots[hotspot*4]*height)+hotspots[hotspot*4+1]] = 1;
     }
     
     // run heatmap
