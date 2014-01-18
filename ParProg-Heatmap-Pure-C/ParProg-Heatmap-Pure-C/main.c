@@ -90,16 +90,14 @@ int main(int argc, const char * argv[])
     int height = atoi(argv[2]);
     int rounds = atoi(argv[3]) + 1; //one extra round
     int number_of_coords;
-    int number_of_hotspots;
     int* coords = NULL;
     int* hotspots = NULL;
     
     if (argc == 6) number_of_coords = parse_coordinates(argv[5], &coords);
     
-    number_of_hotspots = parse_and_count_hotspots(argv[4], &hotspots);
+    int number_of_hotspots = parse_and_count_hotspots(argv[4], &hotspots);
     
     // generate heatmap
-    
     double* heatmap = malloc(sizeof(double)*width*height);
     double* last_round = malloc(sizeof(double)*width*height);
     double* last_round_copy = malloc(sizeof(double)*width*height);
@@ -109,12 +107,12 @@ int main(int argc, const char * argv[])
             last_round[(x*height)+y] = 0;
             last_round_copy[(x*height)+y] = 0;
             heatmap[(x*height)+y] = 0;
-            for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
-                if (hotspots[hotspot*4] == x && hotspots[hotspot*4+1] == y && 0 >= hotspots[hotspot*4+2] && 0 < hotspots[hotspot*4+3]){
-                    heatmap[(x*height)+y] = 1;
-                }
-            }
         }
+    }
+    
+    // place initial hotspots
+    for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
+            heatmap[(hotspots[hotspot*4]*height)+hotspots[hotspot*4+1]] = 1;
     }
     
     // run heatmap
