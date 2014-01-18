@@ -83,6 +83,27 @@ int parse_and_count_hotspots(const char *hotspot_file_name, int** hotspots){
     
 }
 
+int generate_output(int argc, int number_of_coords, int* coords, int width, int height, double* heatmap){
+    
+    // Generate output file
+    FILE *output_file;
+    output_file = fopen("output.txt","w+");
+    
+    if (argc == 6){
+        for (int coord = 0; coord < number_of_coords; coord++){
+            fprintf(output_file, "%f\n", heatmap[coords[coord*2]*height+coords[coord*2+1]]);}}
+    else {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++){
+                if (heatmap[(x*height)+y] > 0.9) fprintf(output_file, "X");
+                else {
+                    int int_value = (int)((heatmap[(x*height)+y]+0.09)*10)/1;
+                    fprintf(output_file, "%i", int_value);}}
+            fprintf(output_file, "\n");}}
+    fclose(output_file);
+    
+    return 0;}
+
 int main(int argc, const char * argv[])
 {
     
@@ -122,22 +143,7 @@ int main(int argc, const char * argv[])
                 heatmap[(hotspots[hotspot*4]*height)+hotspots[hotspot*4+1]] = 1;}}
         last_round = heatmap;}
     
-    // Generate output file
-    FILE *output_file;
-    output_file = fopen("output.txt","w+");
-    
-    if (argc == 6){
-        for (int coord = 0; coord < number_of_coords; coord++){
-            fprintf(output_file, "%f\n", heatmap[coords[coord*2]*height+coords[coord*2+1]]);}}
-    else {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++){
-                if (heatmap[(x*height)+y] > 0.9) fprintf(output_file, "X");
-                else {
-                    int int_value = (int)((heatmap[(x*height)+y]+0.09)*10)/1;
-                    fprintf(output_file, "%i", int_value);}}
-            fprintf(output_file, "\n");}}
-    fclose(output_file);
+    generate_output(argc, number_of_coords, coords, width, height, heatmap);
     
     return 0;}
 
