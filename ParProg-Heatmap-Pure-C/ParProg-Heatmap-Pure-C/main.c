@@ -3,26 +3,23 @@
 #include <string.h>
 
 int parse_coordinates(const char* coord_file_name, int** coords){
-    
-    int number_of_coords = 0;
-    
+    //count coordinates
     FILE *coord_file;
     coord_file = fopen (coord_file_name, "rt");
-    
-    //count coordinates
+    int number_of_coords = 0;
     int ch;
+    
     while (EOF != (ch=getc(coord_file)))
-        if (ch=='\n')
-            number_of_coords++;
+        if (ch=='\n') number_of_coords++;
     fclose(coord_file);
     
-    *coords = malloc(sizeof(int)*number_of_coords*2);
-    
     // tokenize coords
-    int coord_to_tokenize = -1;
     FILE *coord_file_again;
     coord_file_again = fopen (coord_file_name, "rt");
+    *coords = malloc(sizeof(int)*number_of_coords*2);
+    int coord_to_tokenize = -1;
     char line[80];
+    
     while(fgets(line, 80, coord_file_again) != NULL){
         if (coord_to_tokenize > -1) {
             char s[64];
@@ -32,11 +29,8 @@ int parse_coordinates(const char* coord_file_name, int** coords){
             while (token) {
                 (*coords)[coord_to_tokenize*2+current_token] = atoi(token);
                 token = strtok(NULL, ",");
-                current_token++;
-            }
-        }
-        coord_to_tokenize++;
-    }
+                current_token++;}}
+        coord_to_tokenize++;}
     fclose(coord_file_again);
     
     return number_of_coords;
@@ -136,21 +130,17 @@ double* generate_and_run_heatmap(int width, int height, int rounds, int number_o
     
 }
 
-int main(int argc, const char * argv[])
-{
-    
+int main(int argc, const char * argv[]){
     int width = atoi(argv[1]);
     int height = atoi(argv[2]);
     int rounds = atoi(argv[3]) + 1; //one extra round
-    int number_of_coords;
+    int number_of_coords = 0;
     int* coords = NULL;
     int* hotspots = NULL;
     
     if (argc == 6) number_of_coords = parse_coordinates(argv[5], &coords);
     int number_of_hotspots = parse_and_count_hotspots(argv[4], &hotspots);
-    
     double* heatmap = generate_and_run_heatmap(width, height, rounds, number_of_hotspots, hotspots);
-    
     generate_output(argc, number_of_coords, coords, width, height, heatmap);
     
     return 0;}
