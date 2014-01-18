@@ -104,19 +104,8 @@ int generate_output(int argc, int number_of_coords, int* coords, int width, int 
     
     return 0;}
 
-int main(int argc, const char * argv[])
-{
-    
-    int width = atoi(argv[1]);
-    int height = atoi(argv[2]);
-    int rounds = atoi(argv[3]) + 1; //one extra round
-    int number_of_coords;
-    int* coords = NULL;
-    int* hotspots = NULL;
-    
-    if (argc == 6) number_of_coords = parse_coordinates(argv[5], &coords);
-    int number_of_hotspots = parse_and_count_hotspots(argv[4], &hotspots);
-    
+double* generate_and_run_heatmap(int width, int height, int rounds, int number_of_hotspots, int* hotspots){
+
     // generate heatmap
     double* heatmap = malloc(sizeof(double)*width*height);
     double* last_round = malloc(sizeof(double)*width*height);
@@ -142,6 +131,25 @@ int main(int argc, const char * argv[])
             if (round >= hotspots[hotspot*4+2] && round < hotspots[hotspot*4+3]){
                 heatmap[(hotspots[hotspot*4]*height)+hotspots[hotspot*4+1]] = 1;}}
         last_round = heatmap;}
+
+    return heatmap;
+    
+}
+
+int main(int argc, const char * argv[])
+{
+    
+    int width = atoi(argv[1]);
+    int height = atoi(argv[2]);
+    int rounds = atoi(argv[3]) + 1; //one extra round
+    int number_of_coords;
+    int* coords = NULL;
+    int* hotspots = NULL;
+    
+    if (argc == 6) number_of_coords = parse_coordinates(argv[5], &coords);
+    int number_of_hotspots = parse_and_count_hotspots(argv[4], &hotspots);
+    
+    double* heatmap = generate_and_run_heatmap(width, height, rounds, number_of_hotspots, hotspots);
     
     generate_output(argc, number_of_coords, coords, width, height, heatmap);
     
