@@ -119,11 +119,11 @@ int main(int argc, const char * argv[])
                         if (x+col >= 0 && x+col < width && y+row >= 0 && y+row < height){
                             sum += last_round[(x+col)*height+y+row];}}}
                 heatmap[(x*height)+y] = sum/9.0;
-                for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
-                    if (hotspots[hotspot*4] == x && hotspots[hotspot*4+1] == y && round >= hotspots[hotspot*4+2] && round < hotspots[hotspot*4+3]){
-                        heatmap[(x*height)+y] = 1;}}
             }
         }
+        for (int hotspot = 0; hotspot < number_of_hotspots; hotspot++){
+            if (round >= hotspots[hotspot*4+2] && round < hotspots[hotspot*4+3]){
+                heatmap[(hotspots[hotspot*4]*height)+hotspots[hotspot*4+1]] = 1;}}
         last_round = heatmap;
     }
     
