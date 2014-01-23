@@ -1,3 +1,5 @@
+#include "heatmap.h"
+
 int generate_output(int argc, int number_of_coords, int* coords, int width, int height, double* heatmap){
     FILE *output_file;
     output_file = fopen("output.txt","w+");

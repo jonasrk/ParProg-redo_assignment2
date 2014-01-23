@@ -1,3 +1,5 @@
+#include "heatmap.h"
+
 int parse_coordinates(const char* coord_file_name, int** coords){
     //count coordinates
     FILE *coord_file;

@@ -1,3 +1,5 @@
+#include "heatmap.h"
+
 int parse_and_count_hotspots(const char *hotspot_file_name, int** hotspots){
     // count hotspots
     FILE *hotspot_file;
