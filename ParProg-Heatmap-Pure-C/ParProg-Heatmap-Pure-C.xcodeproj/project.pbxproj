@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		DD38E28718899606003C7545 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = DD38E28618899606003C7545 /* main.c */; };
 		DD38E28918899606003C7545 /* ParProg_Heatmap_Pure_C.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DD38E28818899606003C7545 /* ParProg_Heatmap_Pure_C.1 */; };
+		DD4333EB18E20FD7009FE42B /* generate_and_run_heatmap.c in Sources */ = {isa = PBXBuildFile; fileRef = DD4333E518E20FD7009FE42B /* generate_and_run_heatmap.c */; };
+		DD4333EC18E20FD7009FE42B /* generate_output.c in Sources */ = {isa = PBXBuildFile; fileRef = DD4333E718E20FD7009FE42B /* generate_output.c */; };
+		DD4333ED18E20FD7009FE42B /* makefile in Sources */ = {isa = PBXBuildFile; fileRef = DD4333E818E20FD7009FE42B /* makefile */; };
+		DD4333EE18E20FD7009FE42B /* parse_and_count_hotspots.c in Sources */ = {isa = PBXBuildFile; fileRef = DD4333E918E20FD7009FE42B /* parse_and_count_hotspots.c */; };
+		DD4333EF18E20FD7009FE42B /* parse_coordinates.c in Sources */ = {isa = PBXBuildFile; fileRef = DD4333EA18E20FD7009FE42B /* parse_coordinates.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +33,12 @@
 		DD38E28318899606003C7545 /* ParProg-Heatmap-Pure-C */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "ParProg-Heatmap-Pure-C"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD38E28618899606003C7545 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		DD38E28818899606003C7545 /* ParProg_Heatmap_Pure_C.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = ParProg_Heatmap_Pure_C.1; sourceTree = "<group>"; };
+		DD4333E518E20FD7009FE42B /* generate_and_run_heatmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = generate_and_run_heatmap.c; sourceTree = "<group>"; };
+		DD4333E618E20FD7009FE42B /* heatmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = heatmap.h; sourceTree = "<group>"; };
+		DD4333E718E20FD7009FE42B /* generate_output.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = generate_output.c; sourceTree = "<group>"; };
+		DD4333E818E20FD7009FE42B /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
+		DD4333E918E20FD7009FE42B /* parse_and_count_hotspots.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parse_and_count_hotspots.c; sourceTree = "<group>"; };
+		DD4333EA18E20FD7009FE42B /* parse_coordinates.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = parse_coordinates.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +72,12 @@
 			isa = PBXGroup;
 			children = (
 				DD38E28618899606003C7545 /* main.c */,
+				DD4333E518E20FD7009FE42B /* generate_and_run_heatmap.c */,
+				DD4333E618E20FD7009FE42B /* heatmap.h */,
+				DD4333E718E20FD7009FE42B /* generate_output.c */,
+				DD4333E818E20FD7009FE42B /* makefile */,
+				DD4333E918E20FD7009FE42B /* parse_and_count_hotspots.c */,
+				DD4333EA18E20FD7009FE42B /* parse_coordinates.c */,
 				DD38E28818899606003C7545 /* ParProg_Heatmap_Pure_C.1 */,
 			);
 			path = "ParProg-Heatmap-Pure-C";
@@ -117,7 +134,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD4333EE18E20FD7009FE42B /* parse_and_count_hotspots.c in Sources */,
 				DD38E28718899606003C7545 /* main.c in Sources */,
+				DD4333EB18E20FD7009FE42B /* generate_and_run_heatmap.c in Sources */,
+				DD4333EF18E20FD7009FE42B /* parse_coordinates.c in Sources */,
+				DD4333ED18E20FD7009FE42B /* makefile in Sources */,
+				DD4333EC18E20FD7009FE42B /* generate_output.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +247,7 @@
 				DD38E28E18899606003C7545 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

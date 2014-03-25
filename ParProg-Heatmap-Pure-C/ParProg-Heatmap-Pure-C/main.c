@@ -22,7 +22,6 @@ int main(int argc, const char * argv[]){
 	    exit (EXIT_FAILURE);
 	  }
 	  printf ("%ld of %ld processors online\n",nprocs, nprocs_max);
-	  exit (EXIT_SUCCESS);
 	
     int width = atoi(argv[1]);
     int height = atoi(argv[2]);

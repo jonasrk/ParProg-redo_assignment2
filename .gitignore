@@ -1,5 +1,8 @@
 ParProg-Heatmap-Pure-C/.DS_Store
 ParProg-Heatmap-Pure-C/ParProg-Heatmap-Pure-C/__pycache__/validatelib.cpython-33.pyc
+../../.DS_Store
+../ParProg-Heatmap-Pure-C.xcodeproj/project.xcworkspace/xcshareddata/
+output.txt
 
 # Object files
 *.o
