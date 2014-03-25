@@ -5,6 +5,25 @@
 #include "generate_output.c"
 
 int main(int argc, const char * argv[]){
+	
+	long nprocs = sysconf(_SC_NPROCESSORS_ONLN);
+	  if (nprocs < 1)
+	  {
+	    fprintf(stderr, "Could not determine number of CPUs online:\n%s\n", 
+	strerror (errno));
+	    exit (EXIT_FAILURE);
+	  }
+	  
+	long nprocs_max = sysconf(_SC_NPROCESSORS_CONF);
+	  if (nprocs_max < 1)
+	  {
+	    fprintf(stderr, "Could not determine number of CPUs configured:\n%s\n", 
+	strerror (errno));
+	    exit (EXIT_FAILURE);
+	  }
+	  printf ("%ld of %ld processors online\n",nprocs, nprocs_max);
+	  exit (EXIT_SUCCESS);
+	
     int width = atoi(argv[1]);
     int height = atoi(argv[2]);
     int rounds = atoi(argv[3]) + 1; //one extra round
