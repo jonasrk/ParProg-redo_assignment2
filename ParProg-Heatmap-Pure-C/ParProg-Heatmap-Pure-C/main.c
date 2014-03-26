@@ -34,7 +34,7 @@ int main(int argc, const char * argv[]){
     
     if (argc == 6) number_of_coords = parse_coordinates(argv[5], &coords);
     int number_of_hotspots = parse_and_count_hotspots(argv[4], &hotspots);
-    double* heatmap = generate_and_run_heatmap(width, height, rounds, number_of_hotspots, hotspots);
+    double* heatmap = generate_and_run_heatmap(width, height, rounds, number_of_hotspots, hotspots, nprocs_max);
     generate_output(argc, number_of_coords, coords, width, height, heatmap);
     
     return 0;}
