@@ -1,14 +1,14 @@
-double* generate_and_run_heatmap(struct heatmapParams* thisParams){
+void* generate_and_run_heatmap(void* thisParams){
 	
-	struct heatmapParams Params;
+	struct heatmapParams* Params;
 	
-	Params = *thisParams;
+	Params = thisParams;
 	
-	int width = Params.width;
-	int height = Params.height;
-	int rounds = Params.rounds;
-	int number_of_hotspots = Params.number_of_hotspots;
-	int* hotspots = Params.hotspots;
+	int width = Params->width;
+	int height = Params->height;
+	int rounds = Params->rounds;
+	int number_of_hotspots = Params->number_of_hotspots;
+	int* hotspots = Params->hotspots;
 	
     // generate heatmap
     double* heatmap;
@@ -34,4 +34,4 @@ double* generate_and_run_heatmap(struct heatmapParams* thisParams){
                 heatmap[(hotspots[hotspot*4]*height)+hotspots[hotspot*4+1]] = 1;}}
         last_round = heatmap;}
     
-    return heatmap;}
+	pthread_exit(heatmap);}
