@@ -1,8 +1,3 @@
-struct heatmapParams {
-    int width, height, rounds, number_of_hotspots;
-	int* hotspots;
-};
-
 double* generate_and_run_heatmap(struct heatmapParams* thisParams){
 	
 	struct heatmapParams Params;

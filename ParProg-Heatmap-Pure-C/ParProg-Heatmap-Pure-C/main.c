@@ -35,11 +35,6 @@ int main(int argc, const char * argv[]){
     if (argc == 6) number_of_coords = parse_coordinates(argv[5], &coords);
     int number_of_hotspots = parse_and_count_hotspots(argv[4], &hotspots);
 	
-	struct heatmapParams {
-	    int width, height, rounds, number_of_hotspots;
-		int* hotspots;
-	};
-	
 	struct heatmapParams thisParams;
 	thisParams.width = width;
 	thisParams.height = height;
