@@ -47,7 +47,7 @@ int main(int argc, const char * argv[]){
 	thisParams.number_of_hotspots = number_of_hotspots;
 	thisParams.hotspots = hotspots;
 	
-    double* heatmap = generate_and_run_heatmap(width, height, rounds, number_of_hotspots, hotspots);
+    double* heatmap = generate_and_run_heatmap(&thisParams);
     generate_output(argc, number_of_coords, coords, width, height, heatmap);
     
     return 0;}

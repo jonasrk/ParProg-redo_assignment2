@@ -1,4 +1,4 @@
-int parse_and_count_hotspots(const char *hotspot_file_name, int** hotspots){
+int parse_and_count_hotspots(const char* hotspot_file_name, int** hotspots){
     // count hotspots
     FILE *hotspot_file;
     hotspot_file = fopen (hotspot_file_name, "rt");

@@ -1,4 +1,20 @@
-double* generate_and_run_heatmap(int width, int height, int rounds, int number_of_hotspots, int* hotspots){
+struct heatmapParams {
+    int width, height, rounds, number_of_hotspots;
+	int* hotspots;
+};
+
+double* generate_and_run_heatmap(struct heatmapParams* thisParams){
+	
+	struct heatmapParams Params;
+	
+	Params = *thisParams;
+	
+	int width = Params.width;
+	int height = Params.height;
+	int rounds = Params.rounds;
+	int number_of_hotspots = Params.number_of_hotspots;
+	int* hotspots = Params.hotspots;
+	
     // generate heatmap
     double* heatmap;
     double* last_round = malloc(sizeof(double)*width*height);
