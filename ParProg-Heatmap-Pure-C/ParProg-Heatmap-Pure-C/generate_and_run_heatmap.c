@@ -12,6 +12,7 @@ void* run_heatmap_tile(void* args){
 		int thread = this_args->thread;
 		double* heatmap = this_args->heatmap;
 		double* last_round = this_args->last_round;
+		long nprocs_max = this_args->nprocs_max;
 		
 		if (thread == 0){
     for (int x = 0; x < width; x++){
@@ -52,6 +53,7 @@ double* generate_and_run_heatmap(int width, int height, int rounds, int number_o
 				these_args[thread].thread = thread;
 				these_args[thread].heatmap = heatmap;
 				these_args[thread].last_round = last_round;
+				these_args[thread].nprocs_max = nprocs_max;
 				
 				pthread_create(&thread_ids[thread], 
 					                    NULL,
