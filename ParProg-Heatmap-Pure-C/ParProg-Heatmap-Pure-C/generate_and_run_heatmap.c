@@ -1,25 +1,16 @@
 void* run_heatmap_tile(void* args){
-	
 	struct heatmap_tile_args* this_args = args;
-		int width = this_args->width;
-		int height = this_args->height;
-		int y = this_args->y;
-		int thread = this_args->thread;
-		double* heatmap = this_args->heatmap;
-		double* last_round = this_args->last_round;
-		long nprocs_max = this_args->nprocs_max;
-		
-		for (int x = 0; x < width; x++){
-			if (x % nprocs_max == thread){
-			double sum = 0;
-	        for (int row = -1; row < 2; row++){
-	            for (int col = -1; col < 2; col++){
-	                if (x+col >= 0 && x+col < width && y+row >= 0 && y+row < height){ //checks if cell is inside heatmap
-	                    sum += last_round[(x+col)*height+y+row];}}}
-	        heatmap[(x*height)+y] = sum/9.0;}
-		
-			}
-		pthread_exit(NULL);}
+	for (int x = 0; x < this_args->width; x++){
+		if (x % this_args->nprocs_max == this_args->thread){
+		double sum = 0;
+	    for (int row = -1; row < 2; row++){
+	        for (int col = -1; col < 2; col++){
+	            if (x+col >= 0 && x+col < this_args->width && this_args->y+row >= 0 && this_args->y+row < this_args->height){ //checks if cell is inside heatmap
+	                sum += this_args->last_round[(x+col)*this_args->height+this_args->y+row];}}}
+	    this_args->heatmap[(x*this_args->height)+this_args->y] = sum/9.0;}
+	
+		}
+	pthread_exit(NULL);}
 
 
 double* generate_and_run_heatmap(int width, int height, int rounds, int number_of_hotspots, int* hotspots, long nprocs_max){
