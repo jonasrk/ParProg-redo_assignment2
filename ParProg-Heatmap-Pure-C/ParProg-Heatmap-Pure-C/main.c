@@ -6,6 +6,7 @@
 
 int main(int argc, const char * argv[]){
 	
+	//nprocs code taken from stackoverflow
 	long nprocs = sysconf(_SC_NPROCESSORS_ONLN);
 	  if (nprocs < 1)
 	  {
@@ -21,8 +22,6 @@ int main(int argc, const char * argv[]){
 	strerror (errno));
 	    exit (EXIT_FAILURE);
 	  }
-	  printf ("%ld of %ld processors online. Yay!\n",nprocs, nprocs_max);
-	  
 	  
 	
     int width = atoi(argv[1]);
