@@ -32,4 +32,3 @@ double* generate_and_run_heatmap(int width, int height, int rounds, int number_o
         last_round = heatmap;}
     
     return heatmap;}
-	

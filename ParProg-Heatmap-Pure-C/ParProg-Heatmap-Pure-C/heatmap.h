@@ -10,8 +10,4 @@ struct heatmap_tile_args{
 	int width, height, thread;
 	long nprocs_max;
 	double* heatmap;
-	double* last_round;
-	
-};
-
-
+	double* last_round;};

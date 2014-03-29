@@ -8,20 +8,16 @@ int main(int argc, const char * argv[]){
 	
 	//nprocs code taken from stackoverflow
 	long nprocs = sysconf(_SC_NPROCESSORS_ONLN);
-	  if (nprocs < 1)
-	  {
+	if (nprocs < 1){
 	    fprintf(stderr, "Could not determine number of CPUs online:\n%s\n", 
-	strerror (errno));
-	    exit (EXIT_FAILURE);
-	  }
+		strerror (errno));
+	    exit (EXIT_FAILURE);}
 	  
 	long nprocs_max = sysconf(_SC_NPROCESSORS_CONF);
-	  if (nprocs_max < 1)
-	  {
+	if (nprocs_max < 1){
 	    fprintf(stderr, "Could not determine number of CPUs configured:\n%s\n", 
-	strerror (errno));
-	    exit (EXIT_FAILURE);
-	  }
+		strerror (errno));
+	    exit (EXIT_FAILURE);}
 	  
 	
     int width = atoi(argv[1]);

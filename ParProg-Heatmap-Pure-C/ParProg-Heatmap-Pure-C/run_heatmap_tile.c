@@ -10,5 +10,3 @@ void* run_heatmap_tile(void* args){
 	    	                sum += this_args->last_round[(x+col)*this_args->height+y+row];}}}
 	    	        this_args->heatmap[(x*this_args->height)+y] = sum/9.0;}}}
 	pthread_exit(NULL);}
-
-
